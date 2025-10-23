@@ -1,10 +1,8 @@
-// script.js
-
-// Initialize the AOS (Animate On Scroll) library
+// Initialize AOS animation
 AOS.init({
-  duration: 1000,      // Animation duration (in ms)
-  once: true,          // Animation only happens once when scrolling down
-  easing: 'ease-in-out' // Smooth animation style
+  duration: 1000,
+  once: true,
+  easing: 'ease-in-out'
 });
 
 // Smooth scroll for nav links
@@ -17,10 +15,23 @@ document.querySelectorAll('.navbar a[href^="#"]').forEach(anchor => {
   });
 });
 
-// (Optional) Dark mode toggle - you can add this later
-/*
+// Dark mode toggle
 const toggle = document.getElementById('theme-toggle');
 toggle.addEventListener('click', () => {
   document.body.classList.toggle('dark-mode');
+  toggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
 });
-*/
+
+// Typewriter effect
+const text = "Python Developer | Data Enthusiast | Tech Learner";
+const typewriter = document.getElementById("typewriter");
+let index = 0;
+
+function type() {
+  if (index < text.length) {
+    typewriter.textContent += text.charAt(index);
+    index++;
+    setTimeout(type, 80);
+  }
+}
+window.onload = type;
