@@ -4,9 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Karthik Anand | Python Developer</title>
+  
+  <!-- Styles -->
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <!-- AOS Animation Library -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
@@ -21,13 +24,14 @@
       <li><a href="#projects">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
+    <button id="theme-toggle" class="btn-outline">🌙</button>
   </nav>
 
   <!-- Hero Section -->
   <section id="home" class="hero">
     <div class="hero-content" data-aos="fade-up">
       <h1>Hi, I'm <span class="highlight">Karthik Anand 👋</span></h1>
-      <h3>Python Developer | Data Enthusiast | Tech Learner</h3>
+      <h3 id="typewriter"></h3>
       <a href="#contact" class="btn">Contact Me</a>
     </div>
   </section>
@@ -58,6 +62,7 @@
   <!-- Projects -->
   <section id="projects" class="projects" data-aos="fade-left">
     <h2>Projects</h2>
+
     <div class="project-card">
       <h3>Automation App</h3>
       <p>Built a desktop automation tool with Python and Tkinter to simplify repetitive tasks.</p>
@@ -87,8 +92,9 @@
     <p>© 2025 Karthik Anand — Hosted on GitHub Pages</p>
   </footer>
 
-  <script>
-    AOS.init();
-  </script>
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="script.js"></script>
+
 </body>
 </html>
