@@ -1,60 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Karthik Anand | Portfolio</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f8f9fb;
-      color: #333;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-    header {
-      background: #005f73;
-      color: white;
-      padding: 2rem 1rem;
-    }
-    section {
-      padding: 2rem;
-    }
-    h1 {
-      margin-bottom: 0.5rem;
-    }
-    .button {
-      background: #0a9396;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    footer {
-      margin-top: 3rem;
-      background: #001219;
-      color: #ccc;
-      padding: 1rem;
-      font-size: 0.9rem;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Karthik Anand | Python Developer</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
-  <header>
-    <h1>Hi, I'm Karthik Anand 👋</h1>
-    <p>Python Developer | Data Enthusiast | Tech Learner</p>
-  </header>
 
-  <section>
-    <h2>About Me</h2>
-    <p>I’m passionate about building smart desktop and automation apps using Python, MySQL, and Tkinter.</p>
-    <a href="mailto:karthikanand141@gmail.com" class="button">Contact Me</a>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <h2 class="logo">KA</h2>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-content" data-aos="fade-up">
+      <h1>Hi, I'm <span class="highlight">Karthik Anand 👋</span></h1>
+      <h3>Python Developer | Data Enthusiast | Tech Learner</h3>
+      <a href="#contact" class="btn">Contact Me</a>
+    </div>
   </section>
 
+  <!-- About -->
+  <section id="about" class="about" data-aos="fade-right">
+    <h2>About Me</h2>
+    <p>
+      I’m passionate about building smart desktop and automation apps using
+      Python, MySQL, and Tkinter. I enjoy learning new technologies and creating
+      projects that simplify everyday tasks.
+    </p>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="skills" data-aos="fade-up">
+    <h2>Skills</h2>
+    <div class="skill-list">
+      <span>Python</span>
+      <span>MySQL</span>
+      <span>Tkinter</span>
+      <span>Pandas</span>
+      <span>Git</span>
+      <span>Streamlit</span>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="projects" data-aos="fade-left">
+    <h2>Projects</h2>
+    <div class="project-card">
+      <h3>Automation App</h3>
+      <p>Built a desktop automation tool with Python and Tkinter to simplify repetitive tasks.</p>
+      <a href="https://github.com/karthikanand141" target="_blank" class="btn-outline">View on GitHub</a>
+    </div>
+
+    <div class="project-card">
+      <h3>Data Dashboard</h3>
+      <p>Interactive data dashboard using Streamlit and Pandas for visual analytics.</p>
+      <a href="https://github.com/karthikanand141" target="_blank" class="btn-outline">View on GitHub</a>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="contact" data-aos="fade-up">
+    <h2>Contact Me</h2>
+    <form action="https://formspree.io/f/your-form-id" method="POST">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="_replyto" placeholder="Your Email" required />
+      <textarea name="message" placeholder="Your Message" required></textarea>
+      <button type="submit" class="btn">Send Message</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
   <footer>
     <p>© 2025 Karthik Anand — Hosted on GitHub Pages</p>
   </footer>
+
+  <script>
+    AOS.init();
+  </script>
 </body>
 </html>
