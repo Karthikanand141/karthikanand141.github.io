@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Karthik Anand | Python & ETL Developer Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ---------- GLOBAL ---------- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #0d0d0d;
+      color: #e0e0e0;
+      scroll-behavior: smooth;
+    }
+    a { color: #f4b400; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    h2 {
+      color: #f4b400;
+      border-bottom: 2px solid #f4b400;
+      padding-bottom: 5px;
+      margin-bottom: 15px;
+    }
+
+    /* ---------- SCROLL PROGRESS BAR ---------- */
+    #progressBar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 4px;
+      background-color: #f4b400;
+      z-index: 3000;
+      transition: width 0.25s ease;
+    }
+
+    /* ---------- HEADER & NAVBAR (FIXED TOGETHER) ---------- */
+    .header-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #1a1a1a;
+      z-index: 2000;
+      border-bottom: 2px solid #f4b400;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      color: #f4b400;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    header p {
+      color: #ccc;
+      font-size: 1rem;
+      margin-top: 5px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      background-color: #1a1a1a;
+    }
+
+    nav a {
+      color: #e0e0e0;
+      padding: 12px 18px;
+      display: block;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #f4b400;
+      color: #121212;
+      transform: scale(1.05);
+    }
+
+    /* ---------- SECTION ---------- */
+    main {
+      margin-top: 210px; /* Space for fixed header+nav */
+    }
+
+    section {
+      background: #1a1a1a;
+      margin: 40px auto;
+      padding: 40px;
+      border-radius: 10px;
+      max-width: 950px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 1s ease;
+      scroll-margin-top: 160px; /* offset for fixed header/nav */
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .project {
+      background: #252525;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .project:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 12px rgba(244, 180, 0, 0.3);
+    }
+
+    .project-title {
+      color: #f4b400;
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    footer {
+      text-align: center;
+      background: #1a1a1a;
+      padding: 20px;
+      color: #999;
+      border-top: 2px solid #f4b400;
+    }
+
+    /* ---------- TECHNICAL SKILLS GRID ---------- */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      row-gap: 12px;
+      column-gap: 15px;
+    }
+    .skills-grid strong {
+      color: #f4b400;
+    }
+
+    /* ---------- WORK EXPERIENCE ---------- */
+    .job {
+      margin-bottom: 25px;
+    }
+    .job h3 {
+      color: #f4b400;
+      margin-bottom: 5px;
+    }
+    .job p strong {
+      color: #fff;
+    }
+    .job ul {
+      margin-left: 20px;
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    /* ---------- EDUCATION ---------- */
+    .edu-list {
+      list-style: none;
+      line-height: 1.8;
+    }
+    .edu-list li strong {
+      color: #f4b400;
+    }
+
+    /* ---------- BACK TO TOP BUTTON ---------- */
+    #topBtn {
+      display: none;
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      z-index: 99;
+      background-color: #f4b400;
+      color: #121212;
+      font-size: 20px;
+      border: none;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      transition: all 0.3s ease;
+    }
+    #topBtn:hover { background-color: #ffd54f; transform: scale(1.1); }
+
+    /* ---------- MOBILE RESPONSIVE ---------- */
+    @media (max-width: 768px) {
+      header h1 { font-size: 1.8rem; }
+      section { padding: 25px; margin: 20px; }
+      nav a { padding: 10px; font-size: 0.95rem; }
+      .skills-grid { grid-template-columns: 1fr; }
+      main { margin-top: 260px; }
+    }
+    /* Prevent About section from hiding on page load due to animation */
+    html {
+      scroll-padding-top: 180px; /* same as header+nav height */
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- SCROLL BAR -->
+  <div id="progressBar"></div>
+
+  <!-- FIXED HEADER + NAV -->
+  <div class="header-container">
+    <header>
+      <h1>Karthik Anand</h1>
+      <p>Python Developer | ETL Developer | SQL | Power BI | Automation</p>
+      <p>📞 +91-7204220275 | 📧 <a href="mailto:karthikanand141@gmail.com">karthikanand141@gmail.com</a></p>
+    </header>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <section id="about">
+      <h2>About Me</h2>
+      <p>I’m a passionate <strong>Python and ETL Developer</strong> experienced in automating data workflows, handling complex XML metadata, and building Python-based automation and analytical tools that make data processing seamless.</p>
+    </section>
+
+    <section id="skills">
+      <h2>Technical Skills</h2>
+      <div class="skills-grid">
+        <strong>Languages:</strong><span>Python, SQL, DAX</span>
+        <strong>Databases:</strong><span>Oracle 10g, MySQL, SQL Server, SQLite</span>
+        <strong>Automation:</strong><span>Selenium, Pandas, XML Parsing, Data Cleaning</span>
+        <strong>Reporting:</strong><span>Power BI (Dashboards, Drilldowns, KPIs)</span>
+        <strong>Version Control:</strong><span>Git, GitHub</span>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="project">
+        <h3 class="project-title">Portfolio Website</h3>
+        <p>Responsive personal site built with HTML, CSS & JS to highlight my work and experience.</p>
+      </div>
+      <div class="project">
+        <h3 class="project-title">Reminder App</h3>
+        <p>Desktop reminder tool (Tkinter + SQLite) for task notifications with snooze & history tracking.</p>
+      </div>
+      <div class="project">
+        <h3 class="project-title">Amazon Rating Scraper</h3>
+        <p>Python Selenium automation script extracting star ratings & OCR data from Amazon product pages.</p>
+      </div>
+      <div class="project">
+        <h3 class="project-title">ONIX XML Processor</h3>
+        <p>Python-based tool to parse, validate, and generate ONIX 3.1 metadata for book publishers.</p>
+      </div>
+    </section>
+
+    <section id="experience">
+      <h2>Work Experience</h2>
+
+      <div class="job">
+        <h3>SR Ecommerce Pvt. Ltd (Oct 2023 – Present)</h3>
+        <p><strong>Designation:</strong> ETL Developer & Python Developer</p>
+        <ul>
+          <li>Designed and maintained ETL workflows for data ingestion and transformation.</li>
+          <li>Worked with complex XML data, parsing and automating metadata extraction using Python.</li>
+          <li>Developed internal automation scripts improving data processing efficiency.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <h3>Altruist Technologies Pvt. Ltd (Oct 2020 – May 2023)</h3>
+        <p><strong>Designation:</strong> Business Associate</p>
+        <ul>
+          <li>Handled data operations and reporting activities.</li>
+          <li>Improved customer satisfaction by optimizing workflow and communication processes.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="education">
+      <h2>Education</h2>
+      <ul class="edu-list">
+        <li><strong>B.E. Mechanical Engineering</strong> – PESIT South Campus, Bangalore (2019) – 58%</li>
+        <li><strong>Diploma in Mechanical Engineering</strong> – N.R.A.M Polytechnic, Nitte (2016) – 74%</li>
+        <li><strong>12th (PUC)</strong> – SDPT Temple PU College, Udupi (2013) – 60%</li>
+        <li><strong>10th (SSLC)</strong> – BMM High School, Udupi (2011) – 80%</li>
+      </ul>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>📧 <a href="mailto:karthikanand141@gmail.com">karthikanand141@gmail.com</a></p>
+      <p>📞 +91-7204220275</p>
+      <p>🌐 <a href="https://github.com/karthikanand141" target="_blank">GitHub: karthikanand141</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Karthik Anand | Python & ETL Developer Portfolio</p>
+  </footer>
+
+  <button onclick="topFunction()" id="topBtn" title="Go to top">⬆</button>
+
+  <script>
+    // Scroll progress bar
+    window.onscroll = function() {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById("progressBar").style.width = scrolled + "%";
+
+      const topBtn = document.getElementById("topBtn");
+      topBtn.style.display = (winScroll > 200) ? "block" : "none";
+    };
+
+    function topFunction() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Fade-in animation
+    const sections = document.querySelectorAll("section");
+    const reveal = () => {
+      const trigger = window.innerHeight * 0.85;
+      sections.forEach(section => {
+        const top = section.getBoundingClientRect().top;
+        if (top < trigger) section.classList.add("visible");
+      });
+    };
+    window.addEventListener("scroll", reveal);
+    reveal();
+
+    // Smooth scroll offset fix (no section hidden under header/nav)
+    document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        const headerHeight = document.querySelector('header').offsetHeight;
+        const navHeight = document.querySelector('nav').offsetHeight;
+        const totalOffset = headerHeight + navHeight - 10;
+
+        const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({
+          top: targetPosition - totalOffset,
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
