@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coffee Haven | Home</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header>
+  <a class="logo">☕ Coffee Haven</a>
+  <nav class="navbar">
+    <a href="index.html" class="active">Home</a>
+    <a href="menu.html">Menu</a>
+    <a href="cart.html">Cart <span id="cart-count">0</span></a>
+
+    <div id="signin-wrapper">
+      <a id="signin-btn">Sign In</a>
+      <div class="dropdown" id="dropdown-menu">
+        <button id="my-orders-btn">My Orders</button>
+        <button id="signout-btn">Sign Out</button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<section class="home">
+  <div class="content">
+    <h1>Welcome to Coffee Haven</h1>
+    <p>Every cup brewed with love ☕</p>
+    <a href="menu.html" class="btn">Shop Now</a>
+  </div>
+</section>
+
+<!-- Amazon-style Sign In Modal -->
+<div id="signin-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+
+    <!-- Step 1: Email Input -->
+    <div id="email-step" class="auth-step active">
+      <h2>Sign In</h2>
+      <p class="auth-subtitle">Enter your email to continue</p>
+      <input type="email" id="check-email" placeholder="Email address" />
+      <button id="check-email-btn">Continue</button>
+      <p class="auth-switch">New to Coffee Haven? <a href="#" id="show-signup">Create your account</a></p>
+    </div>
+
+    <!-- Step 2: Login (Existing User) -->
+    <div id="login-step" class="auth-step">
+      <h2>Welcome back!</h2>
+      <p id="welcome-message" class="auth-subtitle"></p>
+      <input type="password" id="login-password" placeholder="Password" />
+      <button id="login-btn">Sign In</button>
+      <p class="auth-link">
+        <a href="#" id="forgot-password-link">Forgot your password?</a>
+      </p>
+      <p class="auth-switch">Not you? <a href="#" class="back-to-email">Use different email</a></p>
+    </div>
+
+    <!-- Step 3: Sign Up (New User) -->
+    <div id="signup-step" class="auth-step">
+      <h2>Create Account</h2>
+      <p id="signup-email-display" class="auth-subtitle"></p>
+      <input type="text" id="signup-name" placeholder="Your name" />
+      <input type="tel" id="signup-phone" placeholder="Mobile number (optional)" />
+      <input type="password" id="signup-password" placeholder="Password" />
+      <input type="password" id="signup-confirm-password" placeholder="Re-enter password" />
+      <button id="create-account-btn">Create your Coffee Haven account</button>
+      <p class="auth-switch">Already have an account? <a href="#" class="back-to-email">Sign in</a></p>
+    </div>
+
+    <!-- Step 4: Forgot Password -->
+    <div id="forgot-step" class="auth-step">
+      <h2>Password assistance</h2>
+      <p class="auth-subtitle">Enter the email address associated with your account.</p>
+      <input type="email" id="forgot-email" placeholder="Email address" />
+      <button id="send-reset-btn">Continue</button>
+      <p class="auth-switch"><a href="#" class="back-to-email">Back to Sign In</a></p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2025 Coffee Haven
+</footer>
+
+<script>
+  const API_URL = "http://localhost:5000";
+
+  // DOM Elements
+  const modal = document.getElementById("signin-modal");
+  const signinBtn = document.getElementById("signin-btn");
+  const signoutBtn = document.getElementById("signout-btn");
+  const dropdown = document.getElementById("dropdown-menu");
+  const closeBtn = document.querySelector(".close-btn");
+
+  // Steps
+  const emailStep = document.getElementById("email-step");
+  const loginStep = document.getElementById("login-step");
+  const signupStep = document.getElementById("signup-step");
+  const forgotStep = document.getElementById("forgot-step");
+
+  // Inputs
+  const checkEmailInput = document.getElementById("check-email");
+  const loginPasswordInput = document.getElementById("login-password");
+  const signupNameInput = document.getElementById("signup-name");
+  const signupPhoneInput = document.getElementById("signup-phone");
+  const signupPasswordInput = document.getElementById("signup-password");
+  const signupConfirmPasswordInput = document.getElementById("signup-confirm-password");
+  const forgotEmailInput = document.getElementById("forgot-email");
+
+  // Buttons
+  const checkEmailBtn = document.getElementById("check-email-btn");
+  const loginBtn = document.getElementById("login-btn");
+  const createAccountBtn = document.getElementById("create-account-btn");
+  const sendResetBtn = document.getElementById("send-reset-btn");
+  const showSignupLink = document.getElementById("show-signup");
+  const forgotPasswordLink = document.getElementById("forgot-password-link");
+
+  let currentEmail = "";
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', function() {
+    updateNavbar();
+    setupAuthHandlers();
+    updateCartCount();
+    setupNavigationHandlers();
+  });
+
+  // Navigation between steps
+  function showStep(step) {
+    emailStep.classList.remove('active');
+    loginStep.classList.remove('active');
+    signupStep.classList.remove('active');
+    forgotStep.classList.remove('active');
+    step.classList.add('active');
+  }
+
+  function resetForm() {
+    checkEmailInput.value = "";
+    loginPasswordInput.value = "";
+    signupNameInput.value = "";
+    signupPhoneInput.value = "";
+    signupPasswordInput.value = "";
+    signupConfirmPasswordInput.value = "";
+    forgotEmailInput.value = "";
+    currentEmail = "";
+  }
+
+  // Setup event handlers
+  function setupAuthHandlers() {
+    // Step 1: Check email
+    checkEmailBtn.addEventListener('click', checkEmail);
+    checkEmailInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') checkEmail();
+    });
+    
+    // Step 2: Login
+    loginBtn.addEventListener('click', login);
+    loginPasswordInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') login();
+    });
+    
+    // Step 3: Create account
+    createAccountBtn.addEventListener('click', createAccount);
+    
+    // Step 4: Forgot password
+    sendResetBtn.addEventListener('click', forgotPassword);
+    
+    // Navigation links
+    showSignupLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      currentEmail = checkEmailInput.value.trim();
+      if (!currentEmail) {
+        alert("Please enter your email first");
+        checkEmailInput.focus();
+        return;
+      }
+      if (!isValidEmail(currentEmail)) {
+        alert("Please enter a valid email address");
+        checkEmailInput.focus();
+        return;
+      }
+      document.getElementById("signup-email-display").textContent = currentEmail;
+      showStep(signupStep);
+      signupNameInput.focus();
+    });
+    
+    forgotPasswordLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      showStep(forgotStep);
+      forgotEmailInput.focus();
+    });
+    
+    // Back to email links
+    document.querySelectorAll('.back-to-email').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        showStep(emailStep);
+        resetForm();
+        checkEmailInput.focus();
+      });
+    });
+  }
+
+  // Step 1: Check if email exists
+  async function checkEmail() {
+    const email = checkEmailInput.value.trim();
+    
+    if (!email) {
+      alert("Please enter your email address");
+      checkEmailInput.focus();
+      return;
+    }
+    
+    if (!isValidEmail(email)) {
+      alert("Please enter a valid email address");
+      checkEmailInput.focus();
+      return;
+    }
+    
+    currentEmail = email;
+    checkEmailBtn.textContent = "Checking...";
+    checkEmailBtn.disabled = true;
+    
+    try {
+      const response = await fetch(API_URL + '/check-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        if (data.exists) {
+          // Existing user - show login step
+          document.getElementById("welcome-message").textContent = email;
+          showStep(loginStep);
+          loginPasswordInput.focus();
+        } else {
+          // New user - show signup step
+          document.getElementById("signup-email-display").textContent = email;
+          showStep(signupStep);
+          signupNameInput.focus();
+        }
+      } else {
+        alert("Error checking email: " + data.message);
+      }
+      
+    } catch (error) {
+      console.error('Error checking email:', error);
+      alert('Connection error. Please make sure the backend server is running.');
+    } finally {
+      checkEmailBtn.textContent = "Continue";
+      checkEmailBtn.disabled = false;
+    }
+  }
+
+  // Step 2: Login existing user
+  async function login() {
+    const password = loginPasswordInput.value;
+    
+    if (!password) {
+      alert("Please enter your password");
+      loginPasswordInput.focus();
+      return;
+    }
+    
+    loginBtn.textContent = "Signing in...";
+    loginBtn.disabled = true;
+    
+    try {
+      const response = await fetch(API_URL + '/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          email: currentEmail, 
+          password: password 
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        localStorage.setItem("loggedUser", data.user.email);
+        localStorage.setItem("userName", data.user.name);
+        localStorage.setItem("userId", data.user.id);
+        updateNavbar();
+        modal.style.display = 'none';
+        resetForm();
+        showStep(emailStep);
+        alert(`Welcome back, ${data.user.name}! ☕`);
+      } else {
+        alert(data.message);
+        loginPasswordInput.focus();
+      }
+      
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('Login failed. Please check your connection and try again.');
+    } finally {
+      loginBtn.textContent = "Sign In";
+      loginBtn.disabled = false;
+    }
+  }
+
+  // Step 3: Create new account
+  async function createAccount() {
+    const name = signupNameInput.value.trim();
+    const password = signupPasswordInput.value;
+    const confirmPassword = signupConfirmPasswordInput.value;
+    const phone = signupPhoneInput.value.trim();
+    
+    if (!name) {
+      alert("Please enter your name");
+      signupNameInput.focus();
+      return;
+    }
+    
+    if (!password) {
+      alert("Please enter a password");
+      signupPasswordInput.focus();
+      return;
+    }
+    
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      signupConfirmPasswordInput.focus();
+      return;
+    }
+    
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters long");
+      signupPasswordInput.focus();
+      return;
+    }
+    
+    createAccountBtn.textContent = "Creating account...";
+    createAccountBtn.disabled = true;
+    
+    try {
+      const response = await fetch(API_URL + '/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          name: name,
+          email: currentEmail, 
+          password: password,
+          phone: phone
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        localStorage.setItem("userId", data.user.id);
+        alert("🎉 Account created successfully! Please sign in with your new account.");
+        resetForm();
+        showStep(emailStep);
+        checkEmailInput.value = currentEmail; // Pre-fill email for login
+        checkEmailInput.focus();
+      } else {
+        alert("❌ " + data.message);
+      }
+      
+    } catch (error) {
+      console.error('Signup error:', error);
+      alert('Account creation failed. Please try again.');
+    } finally {
+      createAccountBtn.textContent = "Create your Coffee Haven account";
+      createAccountBtn.disabled = false;
+    }
+  }
+
+  // Step 4: Forgot password
+  async function forgotPassword() {
+    const email = forgotEmailInput.value.trim();
+    
+    if (!email) {
+      alert("Please enter your email address");
+      forgotEmailInput.focus();
+      return;
+    }
+    
+    if (!isValidEmail(email)) {
+      alert("Please enter a valid email address");
+      forgotEmailInput.focus();
+      return;
+    }
+    
+    sendResetBtn.textContent = "Sending...";
+    sendResetBtn.disabled = true;
+    
+    try {
+      const response = await fetch(API_URL + '/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        alert("✅ Password reset instructions sent to your email!");
+        resetForm();
+        showStep(emailStep);
+      } else {
+        alert("❌ " + data.message);
+      }
+      
+    } catch (error) {
+      console.error('Forgot password error:', error);
+      alert('Failed to send reset instructions. Please try again.');
+    } finally {
+      sendResetBtn.textContent = "Continue";
+      sendResetBtn.disabled = false;
+    }
+  }
+
+  // Navigation handlers
+  function setupNavigationHandlers() {
+    document.getElementById('my-orders-btn').addEventListener('click', () => {
+      window.location.href = 'account.html';
+    });
+  }
+
+  // Utility functions
+  function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  function updateNavbar() {
+    const user = localStorage.getItem("loggedUser");
+    if (user) {
+      const userName = localStorage.getItem('userName') || user.split('@')[0];
+      signinBtn.textContent = `Hello, ${userName}`;
+      signinBtn.style.background = "#4caf50";
+    } else {
+      signinBtn.textContent = "Sign In";
+      signinBtn.style.background = "#6f4e37";
+    }
+  }
+
+  function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    document.getElementById("cart-count").textContent = totalItems;
+  }
+
+  // Modal handlers
+  signinBtn.onclick = () => {
+    const user = localStorage.getItem("loggedUser");
+    if (user) {
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    } else {
+      modal.style.display = "flex";
+      showStep(emailStep);
+      checkEmailInput.focus();
+    }
+  };
+
+  signoutBtn.onclick = () => {
+    localStorage.removeItem("loggedUser");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userId");
+    dropdown.style.display = "none";
+    updateNavbar();
+    alert("Signed out successfully!");
+  };
+
+  closeBtn.onclick = () => {
+    modal.style.display = "none";
+    resetForm();
+    showStep(emailStep);
+  };
+
+  window.onclick = (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+      resetForm();
+      showStep(emailStep);
+    }
+    if (!e.target.closest('#signin-wrapper')) {
+      dropdown.style.display = 'none';
+    }
+  };
+
+  // Initial update
+  updateNavbar();
+</script>
+
+</body>
+</html>
