@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Account | Coffee Haven</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .account-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px 20px;
+      min-height: 70vh;
+    }
+    
+    .account-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .account-sections {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 30px;
+    }
+    
+    @media (max-width: 768px) {
+      .account-sections {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .sidebar {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      height: fit-content;
+    }
+    
+    .sidebar h3 {
+      color: #3e2723;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #ffca85;
+    }
+    
+    .sidebar-nav a {
+      display: block;
+      padding: 12px 15px;
+      color: #333;
+      text-decoration: none;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      transition: 0.3s;
+    }
+    
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active {
+      background: #f3e9e3;
+      color: #6f4e37;
+    }
+    
+    .content-area {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .order-card {
+      border: 1px solid #e7e7e7;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #e7e7e7;
+    }
+    
+    .order-id {
+      font-weight: 600;
+      color: #3e2723;
+    }
+    
+    .order-date {
+      color: #666;
+    }
+    
+    .order-status {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    
+    .order-status.delivered {
+      background: #4caf50;
+      color: white;
+    }
+    
+    .order-status.pending {
+      background: #ff9800;
+      color: white;
+    }
+    
+    .order-status.processing {
+      background: #2196f3;
+      color: white;
+    }
+    
+    .order-status.cancelled {
+      background: #f44336;
+      color: white;
+    }
+    
+    .order-items {
+      margin-bottom: 15px;
+    }
+    
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    
+    .order-total {
+      text-align: right;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #3e2723;
+      border-top: 1px solid #e7e7e7;
+      padding-top: 15px;
+    }
+    
+    .no-orders {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+    
+    .user-info {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+    }
+    
+    .info-row {
+      display: flex;
+      margin-bottom: 10px;
+      padding: 8px 0;
+    }
+    
+    .info-label {
+      font-weight: 600;
+      width: 120px;
+      color: #333;
+    }
+    
+    .info-value {
+      color: #666;
+      flex: 1;
+    }
+    
+    .edit-btn {
+      background: #6f4e37;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    
+    .edit-btn:hover {
+      background: #5a3e2b;
+    }
+    
+    .back-btn {
+      background: #6f4e37;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .back-btn:hover {
+      background: #5a3e2b;
+    }
+    
+    .address-card {
+      border: 1px solid #e7e7e7;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      background: #f9f9f9;
+    }
+    
+    .address-card h4 {
+      margin-bottom: 10px;
+      color: #3e2723;
+    }
+    
+    .address-actions {
+      margin-top: 15px;
+    }
+    
+    .address-actions button {
+      background: #6f4e37;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+      font-size: 12px;
+    }
+    
+    .address-actions button:hover {
+      background: #5a3e2b;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html">☕ Coffee Haven</a>
+  <nav class="navbar">
+    <a href="index.html">Home</a>
+    <a href="menu.html">Menu</a>
+    <a href="cart.html">Cart <span id="cart-count">0</span></a>
+    <div id="signin-wrapper">
+      <a id="signin-btn">Sign In</a>
+      <div class="dropdown" id="dropdown-menu">
+        <button id="my-orders-btn">My Orders</button>
+        <button id="signout-btn">Sign Out</button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<div class="account-container">
+  <div class="account-header">
+    <h1>Your Account</h1>
+    <p>Manage your orders and account settings</p>
+  </div>
+  
+  <div class="account-sections">
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+      <h3>Your Account</h3>
+      <nav class="sidebar-nav">
+        <a href="#" class="active" data-tab="orders">📦 Your Orders</a>
+        <a href="#" data-tab="profile">👤 Your Profile</a>
+        <a href="#" data-tab="addresses">📍 Your Addresses</a>
+      </nav>
+    </div>
+    
+    <!-- Content Area -->
+    <div class="content-area">
+      <!-- Orders Tab -->
+      <div id="orders-tab" class="tab-content active">
+        <h2>Your Orders</h2>
+        <div id="orders-list">
+          <!-- Orders will be loaded here -->
+        </div>
+      </div>
+      
+      <!-- Profile Tab -->
+      <div id="profile-tab" class="tab-content">
+        <h2>Your Profile</h2>
+        <div class="user-info">
+          <div class="info-row">
+            <span class="info-label">Name:</span>
+            <span class="info-value" id="profile-name">-</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Email:</span>
+            <span class="info-value" id="profile-email">-</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Phone:</span>
+            <span class="info-value" id="profile-phone">-</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Member since:</span>
+            <span class="info-value" id="profile-joined">-</span>
+          </div>
+        </div>
+        <button class="edit-btn">Edit Profile</button>
+      </div>
+      
+      <!-- Addresses Tab -->
+      <div id="addresses-tab" class="tab-content">
+        <h2>Your Addresses</h2>
+        <div id="addresses-list">
+          <!-- Addresses will be loaded here -->
+        </div>
+        <button class="edit-btn" onclick="showAddAddressForm()">Add New Address</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Amazon-style Sign In Modal (same as index.html) -->
+<div id="signin-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+
+    <!-- Step 1: Email Input -->
+    <div id="email-step" class="auth-step active">
+      <h2>Sign In</h2>
+      <p class="auth-subtitle">Enter your email to continue</p>
+      <input type="email" id="check-email" placeholder="Email address" />
+      <button id="check-email-btn">Continue</button>
+      <p class="auth-switch">New to Coffee Haven? <a href="#" id="show-signup">Create your account</a></p>
+    </div>
+
+    <!-- Step 2: Login (Existing User) -->
+    <div id="login-step" class="auth-step">
+      <h2>Welcome back!</h2>
+      <p id="welcome-message" class="auth-subtitle"></p>
+      <input type="password" id="login-password" placeholder="Password" />
+      <button id="login-btn">Sign In</button>
+      <p class="auth-link">
+        <a href="#" id="forgot-password-link">Forgot your password?</a>
+      </p>
+      <p class="auth-switch">Not you? <a href="#" class="back-to-email">Use different email</a></p>
+    </div>
+
+    <!-- Step 3: Sign Up (New User) -->
+    <div id="signup-step" class="auth-step">
+      <h2>Create Account</h2>
+      <p id="signup-email-display" class="auth-subtitle"></p>
+      <input type="text" id="signup-name" placeholder="Your name" />
+      <input type="tel" id="signup-phone" placeholder="Mobile number (optional)" />
+      <input type="password" id="signup-password" placeholder="Password" />
+      <input type="password" id="signup-confirm-password" placeholder="Re-enter password" />
+      <button id="create-account-btn">Create your Coffee Haven account</button>
+      <p class="auth-switch">Already have an account? <a href="#" class="back-to-email">Sign in</a></p>
+    </div>
+
+    <!-- Step 4: Forgot Password -->
+    <div id="forgot-step" class="auth-step">
+      <h2>Password assistance</h2>
+      <p class="auth-subtitle">Enter the email address associated with your account.</p>
+      <input type="email" id="forgot-email" placeholder="Email address" />
+      <button id="send-reset-btn">Continue</button>
+      <p class="auth-switch"><a href="#" class="back-to-email">Back to Sign In</a></p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2025 Coffee Haven
+</footer>
+
+<script>
+  const API_URL = "http://localhost:5000";
+
+  // DOM Elements
+  const modal = document.getElementById("signin-modal");
+  const signinBtn = document.getElementById("signin-btn");
+  const signoutBtn = document.getElementById("signout-btn");
+  const dropdown = document.getElementById("dropdown-menu");
+  const closeBtn = document.querySelector(".close-btn");
+
+  // Steps
+  const emailStep = document.getElementById("email-step");
+  const loginStep = document.getElementById("login-step");
+  const signupStep = document.getElementById("signup-step");
+  const forgotStep = document.getElementById("forgot-step");
+
+  // Inputs
+  const checkEmailInput = document.getElementById("check-email");
+  const loginPasswordInput = document.getElementById("login-password");
+  const signupNameInput = document.getElementById("signup-name");
+  const signupPhoneInput = document.getElementById("signup-phone");
+  const signupPasswordInput = document.getElementById("signup-password");
+  const signupConfirmPasswordInput = document.getElementById("signup-confirm-password");
+  const forgotEmailInput = document.getElementById("forgot-email");
+
+  // Buttons
+  const checkEmailBtn = document.getElementById("check-email-btn");
+  const loginBtn = document.getElementById("login-btn");
+  const createAccountBtn = document.getElementById("create-account-btn");
+  const sendResetBtn = document.getElementById("send-reset-btn");
+  const showSignupLink = document.getElementById("show-signup");
+  const forgotPasswordLink = document.getElementById("forgot-password-link");
+
+  let currentEmail = "";
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', function() {
+    updateNavbar();
+    setupAuthHandlers();
+    updateCartCount();
+    setupNavigationHandlers();
+    setupTabHandlers();
+    checkAuthentication();
+  });
+
+  // Check if user is authenticated
+  function checkAuthentication() {
+    const user = localStorage.getItem("loggedUser");
+    if (!user) {
+      // Redirect to home if not logged in
+      window.location.href = 'index.html';
+      return;
+    }
+    loadUserProfile();
+    loadUserOrders();
+    loadUserAddresses();
+  }
+
+  // Tab functionality
+  function setupTabHandlers() {
+    document.querySelectorAll('.sidebar-nav a').forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Update active tab
+        document.querySelectorAll('.sidebar-nav a').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        // Show corresponding content
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        const tabId = tab.dataset.tab + '-tab';
+        document.getElementById(tabId).classList.add('active');
+        
+        // Load data if needed
+        if (tab.dataset.tab === 'orders') {
+          loadUserOrders();
+        } else if (tab.dataset.tab === 'profile') {
+          loadUserProfile();
+        } else if (tab.dataset.tab === 'addresses') {
+          loadUserAddresses();
+        }
+      });
+    });
+  }
+
+  // Navigation between auth steps
+  function showStep(step) {
+    emailStep.classList.remove('active');
+    loginStep.classList.remove('active');
+    signupStep.classList.remove('active');
+    forgotStep.classList.remove('active');
+    step.classList.add('active');
+  }
+
+  function resetForm() {
+    checkEmailInput.value = "";
+    loginPasswordInput.value = "";
+    signupNameInput.value = "";
+    signupPhoneInput.value = "";
+    signupPasswordInput.value = "";
+    signupConfirmPasswordInput.value = "";
+    forgotEmailInput.value = "";
+    currentEmail = "";
+  }
+
+  // Setup event handlers
+  function setupAuthHandlers() {
+    // Step 1: Check email
+    checkEmailBtn.addEventListener('click', checkEmail);
+    checkEmailInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') checkEmail();
+    });
+    
+    // Step 2: Login
+    loginBtn.addEventListener('click', login);
+    loginPasswordInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') login();
+    });
+    
+    // Step 3: Create account
+    createAccountBtn.addEventListener('click', createAccount);
+    
+    // Step 4: Forgot password
+    sendResetBtn.addEventListener('click', forgotPassword);
+    
+    // Navigation links
+    showSignupLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      currentEmail = checkEmailInput.value.trim();
+      if (!currentEmail) {
+        alert("Please enter your email first");
+        checkEmailInput.focus();
+        return;
+      }
+      if (!isValidEmail(currentEmail)) {
+        alert("Please enter a valid email address");
+        checkEmailInput.focus();
+        return;
+      }
+      document.getElementById("signup-email-display").textContent = currentEmail;
+      showStep(signupStep);
+      signupNameInput.focus();
+    });
+    
+    forgotPasswordLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      showStep(forgotStep);
+      forgotEmailInput.focus();
+    });
+    
+    // Back to email links
+    document.querySelectorAll('.back-to-email').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        showStep(emailStep);
+        resetForm();
+        checkEmailInput.focus();
+      });
+    });
+  }
+
+  // Step 1: Check if email exists
+  async function checkEmail() {
+    const email = checkEmailInput.value.trim();
+    
+    if (!email) {
+      alert("Please enter your email address");
+      checkEmailInput.focus();
+      return;
+    }
+    
+    if (!isValidEmail(email)) {
+      alert("Please enter a valid email address");
+      checkEmailInput.focus();
+      return;
+    }
+    
+    currentEmail = email;
+    checkEmailBtn.textContent = "Checking...";
+    checkEmailBtn.disabled = true;
+    
+    try {
+      const response = await fetch(API_URL + '/check-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        if (data.exists) {
+          // Existing user - show login step
+          document.getElementById("welcome-message").textContent = email;
+          showStep(loginStep);
+          loginPasswordInput.focus();
+        } else {
+          // New user - show signup step
+          document.getElementById("signup-email-display").textContent = email;
+          showStep(signupStep);
+          signupNameInput.focus();
+        }
+      } else {
+        alert("Error checking email: " + data.message);
+      }
+      
+    } catch (error) {
+      console.error('Error checking email:', error);
+      alert('Connection error. Please make sure the backend server is running.');
+    } finally {
+      checkEmailBtn.textContent = "Continue";
+      checkEmailBtn.disabled = false;
+    }
+  }
+
+  // Step 2: Login existing user
+  async function login() {
+    const password = loginPasswordInput.value;
+    
+    if (!password) {
+      alert("Please enter your password");
+      loginPasswordInput.focus();
+      return;
+    }
+    
+    loginBtn.textContent = "Signing in...";
+    loginBtn.disabled = true;
+    
+    try {
+      const response = await fetch(API_URL + '/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          email: currentEmail, 
+          password: password 
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        localStorage.setItem("loggedUser", data.user.email);
+        localStorage.setItem("userName", data.user.name);
+        localStorage.setItem("userId", data.user.id);
+        updateNavbar();
+        modal.style.display = 'none';
+        resetForm();
+        showStep(emailStep);
+        alert(`Welcome back, ${data.user.name}! ☕`);
+        // Reload account data
+        loadUserProfile();
+        loadUserOrders();
+        loadUserAddresses();
+      } else {
+        alert(data.message);
+        loginPasswordInput.focus();
+      }
+      
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('Login failed. Please check your connection and try again.');
+    } finally {
+      loginBtn.textContent = "Sign In";
+      loginBtn.disabled = false;
+    }
+  }
+
+  // Step 3: Create new account
+  async function createAccount() {
+    const name = signupNameInput.value.trim();
+    const password = signupPasswordInput.value;
+    const confirmPassword = signupConfirmPasswordInput.value;
+    const phone = signupPhoneInput.value.trim();
+    
+    if (!name) {
+      alert("Please enter your name");
+      signupNameInput.focus();
+      return;
+    }
+    
+    if (!password) {
+      alert("Please enter a password");
+      signupPasswordInput.focus();
+      return;
+    }
+    
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      signupConfirmPasswordInput.focus();
+      return;
+    }
+    
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters long");
+      signupPasswordInput.focus();
+      return;
+    }
+    
+    createAccountBtn.textContent = "Creating account...";
+    createAccountBtn.disabled = true;
+    
+    try {
+      const response = await fetch(API_URL + '/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          name: name,
+          email: currentEmail, 
+          password: password,
+          phone: phone
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        localStorage.setItem("userId", data.user.id);
+        alert("🎉 Account created successfully! Please sign in with your new account.");
+        resetForm();
+        showStep(emailStep);
+        checkEmailInput.value = currentEmail; // Pre-fill email for login
+        checkEmailInput.focus();
+      } else {
+        alert("❌ " + data.message);
+      }
+      
+    } catch (error) {
+      console.error('Signup error:', error);
+      alert('Account creation failed. Please try again.');
+    } finally {
+      createAccountBtn.textContent = "Create your Coffee Haven account";
+      createAccountBtn.disabled = false;
+    }
+  }
+
+  // Step 4: Forgot password
+  async function forgotPassword() {
+    const email = forgotEmailInput.value.trim();
+    
+    if (!email) {
+      alert("Please enter your email address");
+      forgotEmailInput.focus();
+      return;
+    }
+    
+    if (!isValidEmail(email)) {
+      alert("Please enter a valid email address");
+      forgotEmailInput.focus();
+      return;
+    }
+    
+    sendResetBtn.textContent = "Sending...";
+    sendResetBtn.disabled = true;
+    
+    try {
+      const response = await fetch(API_URL + '/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        alert("✅ Password reset instructions sent to your email!");
+        resetForm();
+        showStep(emailStep);
+      } else {
+        alert("❌ " + data.message);
+      }
+      
+    } catch (error) {
+      console.error('Forgot password error:', error);
+      alert('Failed to send reset instructions. Please try again.');
+    } finally {
+      sendResetBtn.textContent = "Continue";
+      sendResetBtn.disabled = false;
+    }
+  }
+
+  // Navigation handlers
+  function setupNavigationHandlers() {
+    document.getElementById('my-orders-btn').addEventListener('click', () => {
+      window.location.href = 'account.html';
+    });
+  }
+
+  // Load user profile data
+  function loadUserProfile() {
+    const user = localStorage.getItem("loggedUser");
+    const userName = localStorage.getItem("userName");
+    const userId = localStorage.getItem("userId");
+    
+    if (user) {
+      document.getElementById('profile-name').textContent = userName || user.split('@')[0];
+      document.getElementById('profile-email').textContent = user;
+      document.getElementById('profile-phone').textContent = 'Not provided'; // You can extend this
+      document.getElementById('profile-joined').textContent = new Date().toLocaleDateString();
+    }
+  }
+
+  // Load user orders
+  async function loadUserOrders() {
+    const user = localStorage.getItem("loggedUser");
+    if (!user) {
+      document.getElementById('orders-list').innerHTML = '<div class="no-orders">Please sign in to view your orders</div>';
+      return;
+    }
+    
+    try {
+      // Try to fetch from API first
+      const response = await fetch(`${API_URL}/api/orders/user/${encodeURIComponent(user)}`);
+      
+      let orders = [];
+      
+      if (response.ok) {
+        orders = await response.json();
+      } else {
+        // Fallback to localStorage orders
+        orders = JSON.parse(localStorage.getItem('userOrders')) || [];
+        
+        // If no orders in localStorage, create some demo orders
+        if (orders.length === 0) {
+          orders = [
+            {
+              orderId: 'CH' + Date.now().toString().slice(-6),
+              orderDate: new Date().toISOString(),
+              status: 'delivered',
+              items: [
+                { name: 'Cappuccino', quantity: 2, price: 180 },
+                { name: 'Chocolate Croissant', quantity: 1, price: 120 }
+              ],
+              total: 480
+            },
+            {
+              orderId: 'CH' + (Date.now() - 86400000).toString().slice(-6),
+              orderDate: new Date(Date.now() - 86400000).toISOString(),
+              status: 'processing',
+              items: [
+                { name: 'Cold Brew', quantity: 1, price: 200 },
+                { name: 'Blueberry Muffin', quantity: 2, price: 160 }
+              ],
+              total: 520
+            }
+          ];
+          localStorage.setItem('userOrders', JSON.stringify(orders));
+        }
+      }
+      
+      displayOrders(orders);
+      
+    } catch (error) {
+      console.error('Error loading orders:', error);
+      document.getElementById('orders-list').innerHTML = '<div class="no-orders">Error loading orders</div>';
+    }
+  }
+
+  function displayOrders(orders) {
+    if (orders.length === 0) {
+      document.getElementById('orders-list').innerHTML = `
+        <div class="no-orders">
+          <h3>No orders yet</h3>
+          <p>Start your coffee journey with us!</p>
+          <button class="back-btn" onclick="window.location.href='menu.html'">Browse Menu</button>
+        </div>
+      `;
+      return;
+    }
+    
+    let ordersHTML = '';
+    orders.forEach(order => {
+      ordersHTML += `
+        <div class="order-card">
+          <div class="order-header">
+            <div>
+              <div class="order-id">Order #${order.orderId || order.id || 'N/A'}</div>
+              <div class="order-date">Placed on ${new Date(order.orderDate || order.date).toLocaleDateString()}</div>
+            </div>
+            <div class="order-status ${(order.status || 'delivered').toLowerCase()}">${order.status || 'Delivered'}</div>
+          </div>
+          <div class="order-items">
+            ${order.items.map(item => `
+              <div class="order-item">
+                <span>${item.name} × ${item.quantity}</span>
+                <span>₹${item.price * item.quantity}</span>
+              </div>
+            `).join('')}
+          </div>
+          <div class="order-total">Total: ₹${order.total}</div>
+        </div>
+      `;
+    });
+    
+    document.getElementById('orders-list').innerHTML = ordersHTML;
+  }
+
+  // Load user addresses
+  function loadUserAddresses() {
+    const user = localStorage.getItem("loggedUser");
+    if (!user) return;
+    
+    // For demo purposes, create some sample addresses
+    const addresses = JSON.parse(localStorage.getItem('userAddresses')) || [
+      {
+        id: 1,
+        type: 'Home',
+        name: 'Home Address',
+        address: '123 Main Street, Apartment 4B',
+        city: 'Mumbai',
+        state: 'Maharashtra',
+        pincode: '400001',
+        isDefault: true
+      },
+      {
+        id: 2,
+        type: 'Work',
+        name: 'Office Address',
+        address: '456 Business Park, Floor 8',
+        city: 'Mumbai',
+        state: 'Maharashtra',
+        pincode: '400020',
+        isDefault: false
+      }
+    ];
+    
+    localStorage.setItem('userAddresses', JSON.stringify(addresses));
+    displayAddresses(addresses);
+  }
+
+  function displayAddresses(addresses) {
+    if (addresses.length === 0) {
+      document.getElementById('addresses-list').innerHTML = `
+        <div class="no-orders">
+          <p>No addresses saved yet</p>
+        </div>
+      `;
+      return;
+    }
+    
+    let addressesHTML = '';
+    addresses.forEach(address => {
+      addressesHTML += `
+        <div class="address-card">
+          <h4>${address.type} ${address.isDefault ? '(Default)' : ''}</h4>
+          <p><strong>${address.name}</strong></p>
+          <p>${address.address}</p>
+          <p>${address.city}, ${address.state} - ${address.pincode}</p>
+          <div class="address-actions">
+            <button onclick="setDefaultAddress(${address.id})">Set as Default</button>
+            <button onclick="editAddress(${address.id})">Edit</button>
+            <button onclick="deleteAddress(${address.id})" style="background: #f44336;">Delete</button>
+          </div>
+        </div>
+      `;
+    });
+    
+    document.getElementById('addresses-list').innerHTML = addressesHTML;
+  }
+
+  function showAddAddressForm() {
+    const addressType = prompt('Enter address type (Home/Work/Other):');
+    if (!addressType) return;
+    
+    const name = prompt('Enter name for this address:');
+    if (!name) return;
+    
+    const address = prompt('Enter full address:');
+    if (!address) return;
+    
+    const city = prompt('Enter city:');
+    if (!city) return;
+    
+    const state = prompt('Enter state:');
+    if (!state) return;
+    
+    const pincode = prompt('Enter pincode:');
+    if (!pincode) return;
+    
+    const addresses = JSON.parse(localStorage.getItem('userAddresses')) || [];
+    const newAddress = {
+      id: Date.now(),
+      type: addressType,
+      name: name,
+      address: address,
+      city: city,
+      state: state,
+      pincode: pincode,
+      isDefault: addresses.length === 0
+    };
+    
+    addresses.push(newAddress);
+    localStorage.setItem('userAddresses', JSON.stringify(addresses));
+    displayAddresses(addresses);
+    alert('Address added successfully!');
+  }
+
+  function setDefaultAddress(addressId) {
+    const addresses = JSON.parse(localStorage.getItem('userAddresses')) || [];
+    const updatedAddresses = addresses.map(addr => ({
+      ...addr,
+      isDefault: addr.id === addressId
+    }));
+    
+    localStorage.setItem('userAddresses', JSON.stringify(updatedAddresses));
+    displayAddresses(updatedAddresses);
+    alert('Default address updated!');
+  }
+
+  function editAddress(addressId) {
+    alert('Edit address functionality would go here');
+  }
+
+  function deleteAddress(addressId) {
+    if (confirm('Are you sure you want to delete this address?')) {
+      const addresses = JSON.parse(localStorage.getItem('userAddresses')) || [];
+      const filteredAddresses = addresses.filter(addr => addr.id !== addressId);
+      
+      // If we deleted the default address, set the first one as default
+      if (filteredAddresses.length > 0 && !filteredAddresses.some(addr => addr.isDefault)) {
+        filteredAddresses[0].isDefault = true;
+      }
+      
+      localStorage.setItem('userAddresses', JSON.stringify(filteredAddresses));
+      displayAddresses(filteredAddresses);
+      alert('Address deleted successfully!');
+    }
+  }
+
+  // Utility functions
+  function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  function updateNavbar() {
+    const user = localStorage.getItem("loggedUser");
+    if (user) {
+      const userName = localStorage.getItem('userName') || user.split('@')[0];
+      signinBtn.textContent = `Hello, ${userName}`;
+      signinBtn.style.background = "#4caf50";
+    } else {
+      signinBtn.textContent = "Sign In";
+      signinBtn.style.background = "#6f4e37";
+    }
+  }
+
+  function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    document.getElementById("cart-count").textContent = totalItems;
+  }
+
+  // Modal handlers
+  signinBtn.onclick = () => {
+    const user = localStorage.getItem("loggedUser");
+    if (user) {
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    } else {
+      modal.style.display = "flex";
+      showStep(emailStep);
+      checkEmailInput.focus();
+    }
+  };
+
+  signoutBtn.onclick = () => {
+    localStorage.removeItem("loggedUser");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userId");
+    dropdown.style.display = "none";
+    updateNavbar();
+    alert("Signed out successfully!");
+    window.location.href = 'index.html';
+  };
+
+  closeBtn.onclick = () => {
+    modal.style.display = "none";
+    resetForm();
+    showStep(emailStep);
+  };
+
+  window.onclick = (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+      resetForm();
+      showStep(emailStep);
+    }
+    if (!e.target.closest('#signin-wrapper')) {
+      dropdown.style.display = 'none';
+    }
+  };
+</script>
+
+</body>
+</html>
